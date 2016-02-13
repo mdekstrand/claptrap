@@ -34,8 +34,10 @@ function streamTweets(db, client) {
         console.log('received event type %s', event.event);
       } else {
         console.log('received tweet ‘%s’', event.text);
-        db.run('INSERT INTO tweets (tweet_id, user, body) VALUES (?, ?, ?)', [
-          event.tweet_id, event.user.screen_name, JSON.stringify(event)
+        var date = new Date(event.created_at);
+        db.run('INSERT INTO tweets (tweet_id, user, timestamp, body) VALUES (?, ?, ?, ?)', [
+          event.tweet_id, event.user.screen_name, date.toISOString(),
+          JSON.stringify(event)
         ], (err) => {
           if (err) {
             console.error('error saving tweet: %s', err);
@@ -57,7 +59,7 @@ function streamTweets(db, client) {
 function openDatabase(callback) {
   var db = new sqlite3.Database('tweets.db', function(err) {
     if (err) return callback(err);
-    db.run('CREATE TABLE IF NOT EXISTS tweets (tweet_id INTEGER PRIMARY KEY, user VARCHAR, body VARCHAR)', (err) => {
+    db.run('CREATE TABLE IF NOT EXISTS tweets (tweet_id INTEGER PRIMARY KEY, user VARCHAR, timestamp VARCHAR, body VARCHAR)', (err) => {
       callback(err, db);
     })
   })
