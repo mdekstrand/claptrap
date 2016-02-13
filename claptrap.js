@@ -1,4 +1,4 @@
-const fs = require('fs');
+﻿const fs = require('fs');
 const util = require('util');
 const toml = require('toml');
 const backoff = require('backoff');
@@ -24,7 +24,7 @@ function streamTweets(db, client) {
       if (keys.length == 1) {
         console.log('received object type %s', keys[0]);
         if (event.delete) {
-          var sid = event.delete.status.status_id;
+          var sid = event.delete.status.id_str;
           console.log('deleting tweet %s', sid);
           db.run('DELETE FROM tweets WHERE tweet_id = ?', [sid], (err) => {
             if (err) console.error('error deleting tweet: %s', err);
