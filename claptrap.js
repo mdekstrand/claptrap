@@ -36,7 +36,7 @@ function streamTweets(db, client) {
         console.log('received tweet ‘%s’', event.text);
         var date = new Date(event.created_at);
         db.run('INSERT INTO tweets (tweet_id, user, timestamp, body) VALUES (?, ?, ?, ?)', [
-          event.tweet_id, event.user.screen_name, date.toISOString(),
+          event.id_str, event.user.screen_name, date.toISOString(),
           JSON.stringify(event)
         ], (err) => {
           if (err) {
