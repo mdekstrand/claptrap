@@ -1,5 +1,4 @@
 const fs = require('fs'), os = require('os');
-const cli = require('commander');
 const sqlite = require('sqlite3');
 
 var out = fs.createWriteStream('tweets.csv');
