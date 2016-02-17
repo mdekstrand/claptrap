@@ -45,10 +45,9 @@ function streamTweets(db, client) {
         })
       }
     });
-    // stream.on('error', function(err) {
-    //   console.error(err);
-    //   streamBackoff.backoff();
-    // });
+    stream.on('error', function(err) {
+      console.error(err);
+    });
     stream.on('end', function() {
       console.log('stream disconnected, reconnecting');
       streamBackoff.backoff();
